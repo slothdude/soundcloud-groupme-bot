@@ -2,14 +2,11 @@
 //get request gives a sample, post request parses your file
 
 const express = require('express');
-const cors = require('cors');
 const app = express();
 const axios = require('axios');
 
-app.use(cors());
 
-
-app.post("/", (req,res) => {
+app.post("/what", (req,res) => {
   axios.post("https://api.groupme.com/v3/bots/post",
   {
     bot_id: process.env.BOT_ID,
