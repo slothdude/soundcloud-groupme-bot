@@ -6,11 +6,13 @@ const app = express();
 const axios = require('axios');
 
 
-app.post("/what", (req,res) => {
+app.post("/newsong", (req,res) => {
+  console.log(req.body);
+  const text = "";
   axios.post("https://api.groupme.com/v3/bots/post",
   {
     bot_id: process.env.BOT_ID,
-    text: "test"
+    text
   }).then(function (response) {
     return res.send("all good");
   })
