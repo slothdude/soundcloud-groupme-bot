@@ -4,7 +4,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-require('dotenv').config();
+const axios = require('axios');
 
 app.use(cors());
 
@@ -17,6 +17,16 @@ app.get('/api/sample', (req, res) => {
 
 
 app.post("/", (req,res) => {
+  axios.post("https://api.groupme.com/v3/bots/post",
+  {
+    bot_id: process.env.BOT_ID,
+    text: "test"
+  }).then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
   // var buffer = req.files.file.data.toString();
   // console.log(buffer);
   // if (!req.files)
@@ -29,7 +39,7 @@ app.post("/", (req,res) => {
   //   if (err){
   //     return console.log(err);
   //   }
-    res.send(req.body, process.env.BOT_ID);
+    res.send("hi");
   // });
 });
 
