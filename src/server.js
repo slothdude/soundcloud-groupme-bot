@@ -4,6 +4,8 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+require('dotenv').config();
+
 app.use(cors());
 
 
@@ -27,7 +29,7 @@ app.post("/", (req,res) => {
   //   if (err){
   //     return console.log(err);
   //   }
-    res.send('Updated post.json');
+    res.send(req.body, process.env.BOT_ID);
   // });
 });
 
