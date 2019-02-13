@@ -9,10 +9,8 @@ const axios = require('axios');
 app.use(cors());
 
 
-app.get('/api/sample', (req, res) => {
-  // var date = new Date();
-  // res.status(200).json({"data": sample,
-  //                       "metadata": date})
+app.get('/', (req, res) => {
+  console.log(process.env);
                       });
 
 
