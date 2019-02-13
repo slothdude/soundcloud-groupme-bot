@@ -15,12 +15,11 @@ app.post("/", (req,res) => {
     bot_id: process.env.BOT_ID,
     text: "test"
   }).then(function (response) {
-    console.log(response);
+    return res.send("all good");
   })
   .catch(function (error) {
-    console.log(error);
+    return res.send("failure");
   });
-  return res.send("all good");
 });
 
 let port = process.env.PORT;
