@@ -20,6 +20,7 @@ app.post("/", (req,res) => {
   .catch(function (error) {
     console.log(error);
   });
+  return res.send("all good");
 });
 
 let port = process.env.PORT;
