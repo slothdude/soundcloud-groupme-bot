@@ -1,0 +1,27 @@
+{
+  "name": "soundcloud-bot",
+  "version": "1.0.0",
+  "description": "��h\u0000i\u0000\r\u0000 \u0000",
+  "main": "./src/server.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slothdude/soundcloud-groupme-bot.git"
+  },
+  "author": "marc eastman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/slothdude/soundcloud-groupme-bot/issues"
+  },
+  "homepage": "https://github.com/slothdude/soundcloud-groupme-bot#readme",
+  "engines": {
+    "node": "8.9.4"
+  }
+}
