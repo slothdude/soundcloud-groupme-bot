@@ -7,14 +7,13 @@ const axios = require('axios');
 
 
 app.post("/newsong", (req,res) => {
-  console.log(req.body);
   const text = "yooooo";
   axios.post("https://api.groupme.com/v3/bots/post",
   {
     bot_id: process.env.BOT_ID,
     text: text
   }).then(function (response) {
-    return res.send("all good" + response);
+    return res.send("all good" + JSON.stringify(req.body));
   })
   .catch(function (error) {
     return res.send("failure" + error);
