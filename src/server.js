@@ -4,9 +4,10 @@
 const express = require('express');
 const app = express();
 const axios = require('axios');
-
+app.use(express.json());
 
 app.post("/newsong", (req,res) => {
+  console.log(req.body);
   const text = "yooooo";
   axios.post("https://api.groupme.com/v3/bots/post",
   {
