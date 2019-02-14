@@ -12,7 +12,7 @@ app.post("/newsong", (req,res) => {
   axios.post("https://api.groupme.com/v3/bots/post",
   {
     bot_id: process.env.BOT_ID,
-    text: text
+    text: JSON.stringify(req.body)
   }).then(function (response) {
     return res.send("all good" + JSON.stringify(req.body));
   })
