@@ -8,7 +8,7 @@ const axios = require('axios');
 
 app.post("/newsong", (req,res) => {
   console.log(req.body);
-  const text = "";
+  const text = "yooooo";
   axios.post("https://api.groupme.com/v3/bots/post",
   {
     bot_id: process.env.BOT_ID,
