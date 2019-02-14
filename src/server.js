@@ -7,12 +7,13 @@ const axios = require('axios');
 app.use(express.json());
 
 app.post("/newsong", (req,res) => {
+  if(req.body.sender_type === "bot") return;
   console.log(req.body);
   const text = "yooooo";
   axios.post("https://api.groupme.com/v3/bots/post",
   {
     bot_id: process.env.BOT_ID,
-    text: JSON.stringify(req.body)
+    text: JSON.stringify(req.body.text)
   }).then(function (response) {
     return res.send("all good" + JSON.stringify(req.body));
   })
