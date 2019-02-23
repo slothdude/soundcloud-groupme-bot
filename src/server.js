@@ -8,7 +8,7 @@ app.use(express.json());
 
 
 app.get("/", (req, res) => {
-  res.send(JSON.stringigy(req.params));
+  res.send(200, JSON.stringify(req.params));
 })
 
 app.get("/login", (req, res) => {
