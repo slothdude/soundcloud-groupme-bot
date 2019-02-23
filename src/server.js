@@ -17,8 +17,13 @@ app.get("/", (req, res) => {
       redirect_uri: "https://cool-new-sounds-bot.herokuapp.com",
       client_id: process.env.CLIENT_ID || "f60b1417d554416baba6161f2e89a205",
       client_secret: process.env.CLIENT_SECRET || "8384896fc76a4c948d7e39344e88cb24"
-    }).then(response => res.send(response))
-    .catch(err => res.send(err));
+    }).then(response => {
+      loggedIn = true;
+      res.send(response)
+    }).catch(err => {
+      loggedIn = true;
+      res.send(err)
+    });
   }
   // res.status(200).send(JSON.stringify(req.query));
 })
