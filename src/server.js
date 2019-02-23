@@ -14,15 +14,15 @@ app.get("/", (req, res) => {
     {
       grant_type: "authorization_code",
       code: code,
-      redirect_uri: "https://cool-new-sounds-bot.herokuapp.com",
+      redirect_uri: "https://cool-new-sounds-bot.herokuapp.com/",
       client_id: process.env.CLIENT_ID || "f60b1417d554416baba6161f2e89a205",
       client_secret: process.env.CLIENT_SECRET || "8384896fc76a4c948d7e39344e88cb24"
     }).then(response => {
       loggedIn = true;
-      res.send(response)
+      res.status(200).send(response);
     }).catch(err => {
       loggedIn = true;
-      res.send(err)
+      res.status(500).send(err);
     });
   }
   // res.status(200).send(JSON.stringify(req.query));
