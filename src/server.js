@@ -14,11 +14,12 @@ app.get("/", (req, res) => {
     {
         grant_type: "authorization_code",
         code: code,
-        redirect_uri: "https://cool-new-sounds-bot.herokuapp.com/"
+        redirect_uri: "https://cool-new-sounds-bot.herokuapp.com/",
+        client_id: "f60b1417d554416baba6161f2e89a205",//process.env.CLIENT_ID ||
+        client_secret: "8384896fc76a4c948d7e39344e88cb24"//process.env.CLIENT_SECRET
     },
     {
       headers: {
-        'Authorization': "ZjYwYjE0MTdkNTU0NDE2YmFiYTYxNjFmMmU4OWEyMDU6ODM4NDg5NmZjNzZhNGM5NDhkN2UzOTM0NGU4OGNiMjQ=",
         'Content-Type':'application/x-www-form-urlencoded'
       }
     }
