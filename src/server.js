@@ -19,10 +19,10 @@ app.get("/", (req, res) => {
       client_secret: "8384896fc76a4c948d7e39344e88cb24"//process.env.CLIENT_SECRET
     }).then(response => {
       loggedIn = true;
-      res.status(200).send(response);
+      return res.status(200).send(response);
     }).catch(err => {
       loggedIn = true;
-      res.status(500).send(err);
+      return res.status(500).send(err);
     });
   }
   // res.status(200).send(JSON.stringify(req.query));
