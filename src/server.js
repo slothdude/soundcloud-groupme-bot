@@ -14,8 +14,8 @@ app.get("/", (req, res) => {
     grant_type: "authorization_code",
     code,
     redirect_uri: "https://cool-new-sounds-bot.herokuapp.com",
-    client_id: "f60b1417d554416baba6161f2e89a205",
-    client_secret: "8384896fc76a4c948d7e39344e88cb24"
+    client_id: process.env.CLIENT_ID || "f60b1417d554416baba6161f2e89a205",
+    client_secret: process.env.CLIENT_SECRET || "8384896fc76a4c948d7e39344e88cb24"
   }).then(res => res.send("success!"))
   .catch(err => console.log(err));
   // res.status(200).send(JSON.stringify(req.query));
