@@ -8,7 +8,7 @@ app.use(express.json());
 
 
 app.get("/", (req, res) => {
-  res.send(req.params.code);
+  res.send("my parms", req.params);
 })
 
 app.get("/login", (req, res) => {
