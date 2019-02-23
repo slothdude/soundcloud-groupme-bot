@@ -6,6 +6,20 @@ const app = express();
 const axios = require('axios');
 app.use(express.json());
 
+
+app.get("/", (req, res) => {
+  res.send("waddup");
+})
+app.get("/login", (req, res) => {
+  axios.get(`https://accounts.spotify.com/authorize?
+    client_id=f60b1417d554416baba6161f2e89a205&
+    response_type=code&
+    redirect_uri=https://cool-new-sounds-bot.herokuapp.com/`
+  ).then(response => {
+    console.log(response);
+  });
+});
+
 app.post("/newsong", (req,res) => {
   console.log(req.body);
   if(req.body.sender_type === "bot") return;
