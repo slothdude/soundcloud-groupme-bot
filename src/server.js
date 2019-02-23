@@ -7,10 +7,12 @@ const axios = require('axios');
 app.use(express.json());
 
 app.post("/newsong", (req,res) => {
+  console.log(req.body);
   if(req.body.sender_type === "bot") return;
-  const scRegex = /.*soundcloud\.com.*/;
-  if(scRegex.match(req.body.text)){
+  const scRegex = /.*spotify\.com.*/;
+  if(req.body.text.match(scRegex)){
     const text = "yooooo";
+    console.log("match found");
     axios.post("https://api.groupme.com/v3/bots/post",
     {
       bot_id: process.env.BOT_ID,
@@ -21,11 +23,9 @@ app.post("/newsong", (req,res) => {
     .catch(function (error) {
       return res.send("failure" + error);
     });
-  });
-  }
+  } else return res.send("not needed");
+});
 
-  console.log(req.body.text);
-  // if you want to send a message back to group
 
 
 let port = process.env.PORT;
