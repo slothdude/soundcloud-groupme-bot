@@ -6,8 +6,8 @@ const app = express();
 const axios = require('axios');
 app.use(express.json());
 const loggedIn = false;
-const client_id: "f60b1417d554416baba6161f2e89a205";
-const client_secret: "8384896fc76a4c948d7e39344e88cb24";//process.env.CLIENT_SECRET
+const client_id = "f60b1417d554416baba6161f2e89a205";
+const client_secret = "8384896fc76a4c948d7e39344e88cb24";//process.env.CLIENT_SECRET
 
 //request failing with unhandled promise request, maybe post on stackoverflow
 app.get("/", (req, res) => {
