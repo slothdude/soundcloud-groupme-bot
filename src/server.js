@@ -1,6 +1,6 @@
 //run `node index.js`
 //get request gives a sample, post request parses your file
-
+const querystring = require('querystring');
 const express = require('express');
 const app = express();
 const axios = require('axios');
@@ -12,16 +12,19 @@ const client_secret = "8384896fc76a4c948d7e39344e88cb24";//process.env.CLIENT_SE
 //request failing with unhandled promise request, maybe post on stackoverflow
 app.get("/", (req, res) => {
   const code = req.query.code;
+  console.log(code);
   if(!loggedIn){
     axios.post("https://accounts.spotify.com/api/token",
-    {
+    querystring.stringify({
         grant_type: "authorization_code",
         code: code,
-        redirect_uri: "https://cool-new-sounds-bot.herokuapp.com/" //doesn't redirect so will only be called once
-    },
+        redirect_uri: "https://cool-new-sounds-bot.herokuapp.com/", //doesn't redirect so will only be called once
+        client_id,
+        client_secret
+    }),
     {
       headers: {
-        'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')),
+        // 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')),
         'Content-Type':'application/x-www-form-urlencoded'
       }
     }
@@ -34,7 +37,7 @@ app.get("/", (req, res) => {
       return res.status(500).send(JSON.stringify(err));
     });
   }
-  // res.status(200).send(JSON.stringify(req.query));
+  res.status(200).send(JSON.stringify(req.query.code));
 })
 
 app.get("/login", (req, res) => {
