@@ -12,11 +12,12 @@ let refreshToken = null;
 
 //request failing with unhandled promise request, maybe post on stackoverflow
 app.get("/", (req, res) => {
+  const code = req.query.code;
   if(!refreshToken){
     axios.post("https://accounts.spotify.com/api/token",
     querystring.stringify({
         grant_type: "authorization_code",
-        code: req.body.code,
+        code: code,
         redirect_uri: "https://cool-new-sounds-bot.herokuapp.com/", //doesn't redirect so will only be called once
         client_id,
         client_secret
@@ -28,7 +29,6 @@ app.get("/", (req, res) => {
       }
     }
     ).then(response => {
-      const data = response;
       refreshToken = response.refresh_token;
       axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
       querystring.stringify({
