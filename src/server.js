@@ -14,7 +14,7 @@ let refreshToken = null;
 app.get("/", (req, res) => {
   const code = req.query.code;
   console.log(code);
-  if(!accessToken){
+  if(!refreshToken){
     axios.post("https://accounts.spotify.com/api/token",
     querystring.stringify({
         grant_type: "authorization_code",
