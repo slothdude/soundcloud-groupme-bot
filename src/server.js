@@ -29,9 +29,9 @@ app.get("/", (req, res) => {
       }
     }
     ).then(response => {
-      console.log(response);
+      console.log(response.data);
       loggedIn = true;
-      res.status(200).send(JSON.stringify(response));
+      res.status(200).send(response.data);
     }).catch(err => {
       console.log(err);
       loggedIn = true;
