@@ -51,6 +51,7 @@ app.get("/login", (req, res) => {
       }
     )}`
   );
+});
 
 app.post("/newsong", (req,res) => {
   console.log(req.body);
