@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
     axios.post("https://accounts.spotify.com/api/token",
     querystring.stringify({
         grant_type: "authorization_code",
-        code: code,
+        code: req.body.code,
         redirect_uri: "https://cool-new-sounds-bot.herokuapp.com/", //doesn't redirect so will only be called once
         client_id,
         client_secret
