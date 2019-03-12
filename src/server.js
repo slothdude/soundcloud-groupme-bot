@@ -31,14 +31,16 @@ app.get("/", (req, res) => {
     ).then(response => {
       refreshToken = response.data.refresh_token;
       axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
-      querystring.stringify({
+      JSON.stringify({
           uris: "spotify:track:2H6sMrYepfhqitVADAYpm4"
       }),
       {
         headers: {
-          'Authorization': response.data.access_token,
+          'Content-Type': "application/json",
+          'Authorization': response.data.access_token
         }
       }).then(response => {
+        console.log(response);
         res.status(200).send(response.data);
       }).catch(err => {
         console.log(err);
