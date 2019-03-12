@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
       }
     }
     ).then(response => {
-      const data = JSON.parse(response);
+      const data = response;
       const accessToken = data.access_token;
       refreshToken = data.refresh_token;
       axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
