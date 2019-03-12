@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
       }
     }
     ).then(response => {
-      console.log(response);
+      console.log(JSON.stringify(response));
       loggedIn = true;
       res.status(200).send(JSON.stringify(response));
     }).catch(err => {
