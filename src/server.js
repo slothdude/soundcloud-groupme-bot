@@ -5,15 +5,16 @@ const express = require('express');
 const app = express();
 const axios = require('axios');
 app.use(express.json());
-let loggedIn = false;
+// let loggedIn = false;
 const client_id = "f60b1417d554416baba6161f2e89a205";
 const client_secret = "8384896fc76a4c948d7e39344e88cb24";//process.env.CLIENT_SECRET
+let refreshToken = null;
 
 //request failing with unhandled promise request, maybe post on stackoverflow
 app.get("/", (req, res) => {
   const code = req.query.code;
   console.log(code);
-  if(!loggedIn){
+  if(!accessToken){
     axios.post("https://accounts.spotify.com/api/token",
     querystring.stringify({
         grant_type: "authorization_code",
@@ -29,12 +30,21 @@ app.get("/", (req, res) => {
       }
     }
     ).then(response => {
-      console.log(response.data);
-      loggedIn = true;
+      const data = JSON.parse(response);
+      const accessToken = data.access_token;
+      refreshToken = data.refresh_token;
+      axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
+      querystring.stringify({
+          uris: "spotify:track:2H6sMrYepfhqitVADAYpm4"
+      }),
+      {
+        headers: {
+          'Authorization': accessToken,
+        }
+      });
       res.status(200).send(response.data);
     }).catch(err => {
       console.log(err);
-      loggedIn = true;
       res.status(500).send(JSON.stringify(err));
     });
   }
