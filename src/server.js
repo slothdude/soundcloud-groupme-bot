@@ -29,15 +29,16 @@ app.get("/", (req, res) => {
       }
     }
     ).then(response => {
+      console.log(response);
       loggedIn = true;
-      return res.status(200).send(JSON.stringify(response));
+      res.status(200).send(JSON.stringify(response));
     }).catch(err => {
       console.log(err);
       loggedIn = true;
-      return res.status(500).send(JSON.stringify(err));
+      res.status(500).send(JSON.stringify(err));
     });
   }
-  res.status(200).send(JSON.stringify(req.query.code));
+  //res.status(200).send(JSON.stringify(req.query.code));
 })
 
 app.get("/login", (req, res) => {
