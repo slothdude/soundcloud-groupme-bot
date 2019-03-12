@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
         }
       }).then(response => {
         console.log(response);
-        res.status(200).send(response.data);
+        res.status(200).send(JSON.stringify(response.data));
       }).catch(err => {
         console.log(err);
         res.status(500).send(JSON.stringify(err));
