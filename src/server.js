@@ -39,9 +39,9 @@ app.get("/", (req, res) => {
           'Content-Type': "application/json",
           'Authorization': response.data.access_token
         }
-      }).then(response => {
-        console.log(response);
-        res.status(200).send(JSON.stringify(response.data));
+      }).then(response2 => {
+        console.log(response2);
+        res.status(200).send(JSON.stringify(response2.data));
       }).catch(err => {
         console.log(err);
         res.status(500).send(JSON.stringify(err));
