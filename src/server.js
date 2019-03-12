@@ -42,15 +42,7 @@ app.get("/", (req, res) => {
 })
 
 app.get("/login", (req, res) => {
-  res.redirect(`https://accounts.spotify.com/authorize?
-    ${querystring.stringify(
-      {
-        client_id: "f60b1417d554416baba6161f2e89a205",
-        response_type: "code",
-        redirect_uri: "https://cool-new-sounds-bot.herokuapp.com/"
-      }
-    )}`
-  );
+  res.redirect(`https://accounts.spotify.com/authorize?client_id=f60b1417d554416baba6161f2e89a205&response_type=code&redirect_uri=https://cool-new-sounds-bot.herokuapp.com/&scope=playlist-modify-public`);
 });
 
 app.post("/newsong", (req,res) => {
