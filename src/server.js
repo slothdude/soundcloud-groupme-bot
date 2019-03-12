@@ -12,8 +12,6 @@ let refreshToken = null;
 
 //request failing with unhandled promise request, maybe post on stackoverflow
 app.get("/", (req, res) => {
-  const code = req.query.code;
-  console.log(code);
   if(!refreshToken){
     axios.post("https://accounts.spotify.com/api/token",
     querystring.stringify({
@@ -31,15 +29,14 @@ app.get("/", (req, res) => {
     }
     ).then(response => {
       const data = response;
-      const accessToken = data.access_token;
-      refreshToken = data.refresh_token;
+      refreshToken = response.refresh_token;
       axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
       querystring.stringify({
           uris: "spotify:track:2H6sMrYepfhqitVADAYpm4"
       }),
       {
         headers: {
-          'Authorization': accessToken,
+          'Authorization': response.access_token,
         }
       });
       res.status(200).send(response.data);
