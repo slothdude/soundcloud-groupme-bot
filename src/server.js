@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
       refreshToken = response.data.refresh_token;
       axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
       {
-          uris: "spotify:track:2H6sMrYepfhqitVADAYpm4"
+          uris: ["spotify:track:2H6sMrYepfhqitVADAYpm4"]
       },
       {
         headers: {
