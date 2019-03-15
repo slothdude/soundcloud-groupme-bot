@@ -30,22 +30,22 @@ app.get("/", (req, res) => {
     }
     ).then(response => {
       refreshToken = response.data.refresh_token;
-      axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
-      {
-          uris: ["spotify:track:2H6sMrYepfhqitVADAYpm4"]
-      },
-      {
-        headers: {
-          'Content-Type': "application/json",
-          'Authorization': response.data.access_token
-        }
-      }).then(response2 => {
-        console.log(response2);
-        res.status(200).send(JSON.stringify(response2.data));
-      }).catch(err => {
-        console.log(err);
-        res.status(500).send(JSON.stringify(err));
-      });
+      // axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
+      // {
+      //     uris: ["spotify:track:2H6sMrYepfhqitVADAYpm4"]
+      // },
+      // {
+      //   headers: {
+      //     'Content-Type': "application/json",
+      //     'Authorization': response.data.access_token
+      //   }
+      // }).then(response2 => {
+      //   console.log(response2);
+      //   res.status(200).send(JSON.stringify(response2.data));
+      // }).catch(err => {
+      //   console.log(err);
+      //   res.status(500).send(JSON.stringify(err));
+      // });
     }).catch(err => {
       console.log(err);
       res.status(500).send(JSON.stringify(err));
