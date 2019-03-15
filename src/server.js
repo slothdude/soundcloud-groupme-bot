@@ -65,7 +65,7 @@ app.post("/newsong", (req,res) => {
   const scRegex = /.*spotify\.com.*/;
   axios.get("https://api.spotify.com/track/3mnZ8RsgfMkHNlo3UK45FU?si=1tgaFfctRkKckP-foX_RJA")
   .then(response => {
-    console.log(resonse.data))
+    console.log(resonse.data);
     res.status(200).send(JSON.stringify(response.data));
   }).catch(error => {
     console.log(error);
