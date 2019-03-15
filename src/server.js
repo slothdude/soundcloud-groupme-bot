@@ -29,6 +29,7 @@ app.get("/", (req, res) => {
       }
     }
     ).then(response => {
+      res.status(200).send(response.data);
       refreshToken = response.data.refresh_token;
       // axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
       // {
