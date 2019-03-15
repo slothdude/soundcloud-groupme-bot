@@ -64,8 +64,13 @@ app.post("/newsong", (req,res) => {
   if(req.body.sender_type === "bot") return;
   const scRegex = /.*spotify\.com.*/;
   axios.get("https://api.spotify.com/track/3mnZ8RsgfMkHNlo3UK45FU?si=1tgaFfctRkKckP-foX_RJA")
-  .then(response => console.log(resonse.data))
-  .catch(error => console.log(error));
+  .then(response => {
+    console.log(resonse.data))
+    res.status(200).send(JSON.stringify(response.data));
+  }).catch(error => {
+    console.log(error);
+    res.status(500).send(JSON.stringify(err));
+  });
   if(req.body.text.match(scRegex)){
     const text = "yooooo";
     console.log("match found");
