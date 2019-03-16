@@ -71,30 +71,16 @@ app.get("/login", (req, res) => {
 app.post("/newsong", (req,res) => {
   console.log(req.body);
   if(req.body.sender_type === "bot") return;
-  const regex = /.*spotify\.com\/track\/(\S)*/;
-  const url = req.body.text.match(regex)[0];
-  axios.get("https://api.spotify.com/track/3mnZ8RsgfMkHNlo3UK45FU?si=1tgaFfctRkKckP-foX_RJA")
+  const regex = /\/track\/([^ ]*)/;
+  const id = req.body.text.match(regex)[1];
+  axios.get("https://api.spotify.com/track/" + id)
   .then(response => {
     console.log(resonse.data);
     res.status(200).send(JSON.stringify(response.data));
   }).catch(error => {
     console.log(error);
     res.status(500).send(JSON.stringify(err));
-  });
-  if(req.body.text.match(scRegex)){
-    const text = "yooooo";
-    console.log("match found");
-    axios.post("https://api.groupme.com/v3/bots/post",
-    {
-      bot_id: process.env.BOT_ID,
-      text: JSON.stringify(req.body.text)
-    }).then(function (response) {
-      return res.send("all good" + JSON.stringify(req.body));
-    })
-    .catch(function (error) {
-      return res.send("failure" + error);
-    });
-  } else return res.send("not needed");
+  }); //postSOng(res)
 });
 
 
@@ -104,3 +90,19 @@ if (port == null || port == "") {
   port = 8000;
 }
 app.listen(port);
+
+
+
+
+
+//how to get the bot to send messages
+// axios.post("https://api.groupme.com/v3/bots/post",
+// {
+//   bot_id: process.env.BOT_ID,
+//   text: JSON.stringify(req.body.text)
+// }).then(function (response) {
+//   return res.send("all good" + JSON.stringify(req.body));
+// })
+// .catch(function (error) {
+//   return res.send("failure" + error);
+// });
