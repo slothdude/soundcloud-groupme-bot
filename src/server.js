@@ -1,11 +1,9 @@
-//run `node index.js`
-//get request gives a sample, post request parses your file
 const querystring = require('querystring');
 const express = require('express');
 const app = express();
 const axios = require('axios');
 app.use(express.json());
-// let loggedIn = false;
+
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 let accessToken = null;
@@ -35,9 +33,9 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
   });
 }
 
-
-const getRefreshToken = (res) => {
-  axios.post("https://accounts.spotify.com/api/token",
+const postSong = (res,id) => {
+  if(!refreshToken) res.send(res.status(500).send("error: no refresh token"));
+  axios.post("https://accounts.spotify.com/api/token", //get next access token from refresh token
   querystring.stringify({
       grant_type: "refresh_token",
       refresh_token: refreshToken
@@ -51,32 +49,26 @@ const getRefreshToken = (res) => {
   ).then(response => {
     console.log(response.data);
     accessToken = response.data.access_token;
-    res.status(200).send("logged in again! " + accessToken);
+    axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
+    {
+        uris: ["spotify:track:"+id]
+    },
+    {
+      headers: {
+        'Content-Type': "application/json",
+        'Authorization': "Bearer " + accessToken
+      }
+    }).then(response2 => {
+      console.log(response2.data);
+      res.status(200).send("success!");
+    }).catch(err => {
+      console.log(err);
+      res.status(500).send("error on playlist post");
+    });
   }).catch(err => {
     console.log(err);
     res.status(500).send("error getting refresh token");
   });
-}
-
-const postSong = (res,id) => {
-  if(!accessToken) res.send(res.status(500).send("error: no accessToken"));
-  getRefreshToken(res);
-  // axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
-  // {
-  //     uris: ["spotify:track:"+id]
-  // },
-  // {
-  //   headers: {
-  //     'Content-Type': "application/json",
-  //     'Authorization': "Bearer " + accessToken
-  //   }
-  // }).then(response2 => {
-  //   console.log(response2.data);
-  //   res.status(200).send("success!");
-  // }).catch(err => {
-  //   console.log(err);
-  //   res.status(500).send("error on playlist post");
-  // });
 }
 
 app.get("/", (req, res) => {
