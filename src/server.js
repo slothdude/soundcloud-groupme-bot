@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
       }
     }
     ).then(response => {
-      console.log(response.data);
+      console.log("Bearer " + response.data.access_token);
       // res.status(200).send(response.data);
       // refreshToken = response.data.refresh_token;
       axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
       {
         headers: {
           'Content-Type': "application/json",
-          'Authorization': response.data.access_token
+          'Authorization': "Bearer " + response.data.access_token
         }
       }).then(response2 => {
         console.log(response2.data);
