@@ -85,7 +85,9 @@ app.post("/newsong", (req,res) => {
   if(req.body.sender_type === "bot") return;
   const regex = /\/track\/([^\?]*)/;
   const id = req.body.text.match(regex) ? req.body.text.match(regex)[1] : -1;
-  if(id !== -1) postSong(res, id);
+  if(id !== -1)
+    postSong(res, id)
+  else res.status(500).send("not a spotify link");
 });
 
 
