@@ -79,7 +79,7 @@ const postSong = (res,id) => {
 }
 
 app.get("/", (req, res) => {
-  login(res,code);
+  login(res, req.query.code);
 })
 
 app.get("/login", (req, res) => {
