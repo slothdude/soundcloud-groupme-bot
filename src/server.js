@@ -41,10 +41,11 @@ app.get("/", (req, res) => {
           'Authorization': response.data.access_token
         }
       }).then(response2 => {
-        console.log(response2);
-        res.status(200).send(JSON.stringify(response2.data));
+        console.log(response2.data);
+        res.status(200).send("success!");
+        // res.status(200).send(JSON.stringify(response2.data));
       }).catch(err => {
-        console.log(err);
+        // console.log(err);
         res.status(500).send(JSON.stringify(err));
       });
     }).catch(err => {
