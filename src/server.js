@@ -51,7 +51,8 @@ const postSong = (res,id) => {
     accessToken = response.data.access_token;
     axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
     {
-        uris: ["spotify:track:"+id]
+        uris: ["spotify:track:"+id],
+        position: 0
     },
     {
       headers: {
@@ -83,8 +84,8 @@ app.post("/newsong", (req,res) => {
   console.log(req.body);
   if(req.body.sender_type === "bot") return;
   const regex = /\/track\/([^\?]*)/;
-  const id = req.body.text.match(regex)[1];
-  postSong(res, id);
+  const id = req.body.text.match(regex) ? req.body.text.match(regex)[1] : -1;
+  if(id !== -1) postSong(res, id);
 });
 
 
