@@ -34,7 +34,7 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
 }
 
 const postSong = (res,id) => {
-  if(!refreshToken) return res.send(res.status(500).send("error: no refresh token"));
+  if(!refreshToken) return res.status(500).send("error: no refresh token"));
   axios.post("https://accounts.spotify.com/api/token", //get next access token from refresh token
   querystring.stringify({
       grant_type: "refresh_token",
@@ -86,7 +86,7 @@ app.post("/newsong", (req,res) => {
   const regex = /\/track\/([^\?]*)/;
   const id = req.body.text.match(regex) ? req.body.text.match(regex)[1] : -1;
   if(id !== -1)
-    postSong(res, id)
+    postSong(res, id);
   else res.status(500).send("not a spotify link");
 });
 
