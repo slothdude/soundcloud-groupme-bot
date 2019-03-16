@@ -71,7 +71,7 @@ app.get("/login", (req, res) => {
 app.post("/newsong", (req,res) => {
   console.log(req.body);
   if(req.body.sender_type === "bot") return;
-  const regex = /\/track\/([^ ]*)/;
+  const regex = /\/track\/([^\?]*)/;
   const id = req.body.text.match(regex)[1];
   postSong(res, id);
   // axios.get("https://api.spotify.com/track/" + id)
