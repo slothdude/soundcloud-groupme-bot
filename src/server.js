@@ -9,7 +9,7 @@ app.use(express.json());
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 let accessToken = null;
-
+let refreshToken = null;
 
 const login = (res, code) => { //logs in for the first time (I have to do that in browser at https://cool-new-sounds-bot.herokuapp.com/login)
   axios.post("https://accounts.spotify.com/api/token",
@@ -27,7 +27,8 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
   }
   ).then(response => {
     accessToken = response.data.access_token;
-    res.status(200).send("logged in! " + accessToken);
+    refreshToken = response.data.refresh_token;
+    res.status(200).send("logged in! " + accessToken + "\nrefreshToken: " + refreshToken);
   }).catch(err => {
     console.log(err);
     res.status(500).send("error getting original token");
@@ -39,7 +40,7 @@ const getRefreshToken = (res) => {
   axios.post("https://accounts.spotify.com/api/token",
   querystring.stringify({
       grant_type: "refresh_token",
-      refresh_token
+      refreshToken
   }),
   {
     headers: {
