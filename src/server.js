@@ -46,11 +46,13 @@ app.get("/", (req, res) => {
         // res.status(200).send(JSON.stringify(response2.data));
       }).catch(err => {
         // console.log(err);
-        res.status(500).send(JSON.stringify(err));
+        // res.status(500).send(JSON.stringify(err));
+        res.status(500).send("error on playlist post");
       });
     }).catch(err => {
       console.log(err);
-      res.status(500).send(JSON.stringify(err));
+      res.status(500).send("error on token");
+      // res.status(500).send(JSON.stringify(err));
     });
   }
   //res.status(200).send(JSON.stringify(req.query.code));
