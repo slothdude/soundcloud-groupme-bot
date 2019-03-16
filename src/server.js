@@ -11,10 +11,10 @@ const client_secret = process.env.CLIENT_SECRET;
 let refreshToken = null;
 let accessToken = null;
 
-const postSong = (res) => {
+const postSong = (res,id) => {
   axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
   {
-      uris: ["spotify:track:2H6sMrYepfhqitVADAYpm4"]
+      uris: ["spotify:track:"+id]
   },
   {
     headers: {
@@ -73,14 +73,15 @@ app.post("/newsong", (req,res) => {
   if(req.body.sender_type === "bot") return;
   const regex = /\/track\/([^ ]*)/;
   const id = req.body.text.match(regex)[1];
-  axios.get("https://api.spotify.com/track/" + id)
-  .then(response => {
-    console.log(resonse.data);
-    res.status(200).send(JSON.stringify(response.data));
-  }).catch(error => {
-    console.log(error);
-    res.status(500).send(JSON.stringify(err));
-  }); //postSOng(res)
+  postSong(res, id);
+  // axios.get("https://api.spotify.com/track/" + id)
+  // .then(response => {
+  //   console.log(resonse.data);
+  //   res.status(200).send(JSON.stringify(response.data));
+  // }).catch(error => {
+  //   console.log(error);
+  //   res.status(500).send(JSON.stringify(error));
+  // }); //postSOng(res)
 });
 
 
