@@ -40,7 +40,7 @@ const getRefreshToken = (res) => {
   axios.post("https://accounts.spotify.com/api/token",
   querystring.stringify({
       grant_type: "refresh_token",
-      refreshToken
+      refresh_token: refreshToken
   }),
   {
     headers: {
