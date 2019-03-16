@@ -8,60 +8,78 @@ app.use(express.json());
 // let loggedIn = false;
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
-let refreshToken = null;
 let accessToken = null;
 
-const postSong = (res,id) => {
-  axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
-  {
-      uris: ["spotify:track:"+id]
-  },
+
+const login = (res, code) => { //logs in for the first time (I have to do that in browser at https://cool-new-sounds-bot.herokuapp.com/login)
+  axios.post("https://accounts.spotify.com/api/token",
+  querystring.stringify({
+      grant_type: "authorization_code",
+      code: code,
+      redirect_uri: "https://cool-new-sounds-bot.herokuapp.com/", //doesn't redirect so will only be called once
+      client_id,
+      client_secret
+  }),
   {
     headers: {
-      'Content-Type': "application/json",
-      'Authorization': "Bearer " + accessToken
+      'Content-Type':'application/x-www-form-urlencoded'
     }
-  }).then(response2 => {
-    console.log(response2.data);
-    res.status(200).send("success!");
-    // res.status(200).send(JSON.stringify(response2.data));
+  }
+  ).then(response => {
+    accessToken = response.data.access_token;
+    res.status(200).send("logged in! " + accessToken);
   }).catch(err => {
     console.log(err);
-    // res.status(500).send(JSON.stringify(err));
-    res.status(500).send("error on playlist post");
+    res.status(500).send("error getting original token");
   });
 }
-//request failing with unhandled promise request, maybe post on stackoverflow
-app.get("/", (req, res) => {
-  const code = req.query.code;
-  if(!refreshToken){
-    axios.post("https://accounts.spotify.com/api/token",
-    querystring.stringify({
-        grant_type: "authorization_code",
-        code: code,
-        redirect_uri: "https://cool-new-sounds-bot.herokuapp.com/", //doesn't redirect so will only be called once
-        client_id,
-        client_secret
-    }),
-    {
-      headers: {
-        // 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')),
-        'Content-Type':'application/x-www-form-urlencoded'
-      }
-    }
-    ).then(response => {
-      accessToken = response.data.access_token;
-      // console.log("Bearer " + response.data.access_token);
-      res.status(200).send("logged in! " + accessToken);
-      // refreshToken = response.data.refresh_token;
 
-    }).catch(err => {
-      console.log(err);
-      res.status(500).send("error on token");
-      // res.status(500).send(JSON.stringify(err));
-    });
+
+const getRefreshToken = (res) => {
+  axios.post("https://accounts.spotify.com/api/token",
+  querystring.stringify({
+      grant_type: "refresh_token",
+      refresh_token
+  }),
+  {
+    headers: {
+      'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')),
+      'Content-Type':'application/x-www-form-urlencoded'
+    }
   }
-  //res.status(200).send(JSON.stringify(req.query.code));
+  ).then(response => {
+    console.log(response.data);
+    accessToken = response.data.access_token;
+    res.status(200).send("logged in again! " + accessToken);
+  }).catch(err => {
+    console.log(err);
+    res.status(500).send("error getting refresh token");
+  });
+}
+
+const postSong = (res,id) => {
+  if(!accessToken) res.send(res.status(500).send("error: no accessToken"));
+  getRefreshToken(res);
+  // axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
+  // {
+  //     uris: ["spotify:track:"+id]
+  // },
+  // {
+  //   headers: {
+  //     'Content-Type': "application/json",
+  //     'Authorization': "Bearer " + accessToken
+  //   }
+  // }).then(response2 => {
+  //   console.log(response2.data);
+  //   res.status(200).send("success!");
+  // }).catch(err => {
+  //   console.log(err);
+  //   res.status(500).send("error on playlist post");
+  // });
+}
+
+app.get("/", (req, res) => {
+  login(res,code);
 })
 
 app.get("/login", (req, res) => {
@@ -74,14 +92,6 @@ app.post("/newsong", (req,res) => {
   const regex = /\/track\/([^\?]*)/;
   const id = req.body.text.match(regex)[1];
   postSong(res, id);
-  // axios.get("https://api.spotify.com/track/" + id)
-  // .then(response => {
-  //   console.log(resonse.data);
-  //   res.status(200).send(JSON.stringify(response.data));
-  // }).catch(error => {
-  //   console.log(error);
-  //   res.status(500).send(JSON.stringify(error));
-  // }); //postSOng(res)
 });
 
 
@@ -92,9 +102,15 @@ if (port == null || port == "") {
 }
 app.listen(port);
 
-
-
-
+// get track info
+// axios.get("https://api.spotify.com/track/" + id)
+// .then(response => {
+  //   console.log(resonse.data);
+  //   res.status(200).send(JSON.stringify(response.data));
+  // }).catch(error => {
+    //   console.log(error);
+    //   res.status(500).send(JSON.stringify(error));
+    // }); //postSOng(res)
 
 //how to get the bot to send messages
 // axios.post("https://api.groupme.com/v3/bots/post",
