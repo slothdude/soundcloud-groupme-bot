@@ -19,7 +19,7 @@ const postSong = (res,id) => {
   {
     headers: {
       'Content-Type': "application/json",
-      'Authorization': "Bearer " + access_token
+      'Authorization': "Bearer " + accessToken
     }
   }).then(response2 => {
     console.log(response2.data);
