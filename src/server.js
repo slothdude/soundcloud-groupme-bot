@@ -82,7 +82,7 @@ app.get("/login", (req, res) => {
 
 app.post("/newsong", (req,res) => {
   console.log(req.body);
-  if(req.body.sender_type === "bot") return;
+  if(req.body.sender_type === "bot") return res.status(500).send("ignoring: bot message");
   const regex = /\/track\/([^\?]*)/;
   const id = req.body.text.match(regex) ? req.body.text.match(regex)[1] : -1;
   if(id !== -1)
