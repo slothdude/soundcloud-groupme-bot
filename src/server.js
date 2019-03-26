@@ -4,6 +4,7 @@ const app = express();
 const axios = require('axios');
 app.use(express.json());
 
+var client = require('redis').createClient(process.env.REDIS_URL);
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 let accessToken = null;
@@ -34,7 +35,10 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
 }
 
 const postSong = (res,id) => {
-  if(!refreshToken) return res.status(500).send("error: no refresh token");
+  if(!refreshToken) {
+    console.log("not posting this bc no refresh token");
+    return res.status(500).send("error: no refresh token");
+  }
   axios.post("https://accounts.spotify.com/api/token", //get next access token from refresh token
   querystring.stringify({
       grant_type: "refresh_token",
