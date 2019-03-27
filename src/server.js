@@ -13,13 +13,14 @@ const client = new Client({
 
 client.connect();
 
-client.query('SELECT table_schema,table_name FROM information_schema.tables;', (err, res) => {
+client.query('SELECT * FROM KEYS', (err, res) => {
   if (err) throw err;
-  for (let row of res.rows) {
-    console.log(JSON.stringify(row));
-  }
+
+    console.log(JSON.stringify(res));
+
   client.end();
 });
+
 
 
 const client_id = process.env.CLIENT_ID;
