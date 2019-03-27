@@ -11,15 +11,15 @@ const client = new Client({
   ssl: true,
 });
 
-client.connect();
-
-client.query('SELECT * FROM KEYS', (err, res) => {
-  if (err) throw err;
-
-    console.log(JSON.stringify(res.rows[0].token));
-
-  client.end();
-});
+// client.connect();
+//
+// client.query('SELECT * FROM KEYS', (err, res) => {
+//   if (err) throw err;
+//
+//     console.log(JSON.stringify(res.rows[0].token));
+//
+//   client.end();
+// });
 
 
 
