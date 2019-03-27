@@ -42,9 +42,16 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
       'Content-Type':'application/x-www-form-urlencoded'
     }
   }
-  ).then(response => {
+).then(async response => {
     accessToken = response.data.access_token;
     refreshToken = response.data.refresh_token;
+    await client.connect();
+    await client.query(`UPDATE KEYS SET Token = '${response.data.refresh_token}'`, (err, res) => {
+      if (err) throw err;
+        console.log("updated refresh token to " + response.data.refresh_token + ". Res: " + res);
+      client.end();
+    });
+
     res.status(200).send("logged in! " + accessToken + "\nrefreshToken: " + refreshToken);
   }).catch(err => {
     console.log(err);
