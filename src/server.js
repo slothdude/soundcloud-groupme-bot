@@ -11,20 +11,6 @@ const client = new Client({
   ssl: true,
 });
 
-client.connect();
-
-client.query('SELECT * FROM KEYS', (err, res) => {
-  if (err) throw err;
-
-    console.log(JSON.stringify(res.rows[0].token));
-
-  client.end();
-});
-
-
-
-
-
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 let accessToken = null;
@@ -45,44 +31,44 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
     }
   }
 ).then(async response => {
-    accessToken = response.data.access_token;
     refreshToken = response.data.refresh_token;
     await client.connect();
-    await client.query(`UPDATE KEYS SET Token = '${response.data.refresh_token}'`, (err, res) => {
+    await client.query(`UPDATE KEYS SET Token = '${refreshToken}'`, (err, res) => {
       if (err) throw err;
-        console.log("updated refresh token to " + response.data.refresh_token + ". Res: " + JSON.stringify(res));
+        console.log("updated refresh token to " + refreshToken + ". Res: " + JSON.stringify(res));
       client.end();
     });
 
-    res.status(200).send("logged in! " + accessToken + "\nrefreshToken: " + refreshToken);
+    res.status(200).send("logged in! " + response.data.access_token + "\nrefreshToken: " + refreshToken);
   }).catch(err => {
     console.log(err);
     res.status(500).send("error getting original token");
   });
 }
 
+
+
 const postSong = async (res,id) => {
   if(!refreshToken) {
     await client.connect();
-
-    const res = await client.query(`SELECT Token FROM KEYS`, (err, res) => {
+    await client.query('SELECT * FROM KEYS', (err, res) => {
       if (err) throw err;
-      console.log(res);
+        refreshToken = res.rows[0].token;
+      client.end();
     });
   }
   await axios.post("https://accounts.spotify.com/api/token", //get next access token from refresh token
-  querystring.stringify({
-      grant_type: "refresh_token",
-      refresh_token: refreshToken
-  }),
-  {
-    headers: {
-      'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')),
-      'Content-Type':'application/x-www-form-urlencoded'
+    querystring.stringify({
+        grant_type: "refresh_token",
+        refresh_token: refreshToken
+    }),
+    {
+      headers: {
+        'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')),
+        'Content-Type':'application/x-www-form-urlencoded'
+      }
     }
-  }
   ).then(response => {
-    console.log(response.data);
     accessToken = response.data.access_token;
     axios.post("https://api.spotify.com/v1/playlists/7tlQqoMHmOjSzeHhtt0qwn/tracks",
     {
@@ -92,7 +78,7 @@ const postSong = async (res,id) => {
     {
       headers: {
         'Content-Type': "application/json",
-        'Authorization': "Bearer " + accessToken
+        'Authorization': "Bearer " + accessToken //
       }
     }).then(response2 => {
       console.log(response2.data);
@@ -106,6 +92,7 @@ const postSong = async (res,id) => {
     res.status(500).send("error getting refresh token");
   });
 }
+
 
 app.get("/", (req, res) => {
   login(res, req.query.code);
