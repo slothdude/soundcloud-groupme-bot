@@ -22,7 +22,7 @@ const client = new Client({
 // });
 client.connect();
 
-const result = await client.query(`SELECT Token FROM KEYS`, (err, res) => {
+client.query(`SELECT Token FROM KEYS`, (err, res) => {
   if (err) throw err;
   console.log("res", res);
   client.end();
