@@ -20,7 +20,15 @@ const client = new Client({
 //
 //   client.end();
 // });
+client.connect();
 
+const result = await client.query(`SELECT Token FROM KEYS`, (err, res) => {
+  if (err) throw err;
+  console.log("res", res);
+  client.end();
+}
+
+await console.log(result);
 
 
 const client_id = process.env.CLIENT_ID;
@@ -48,7 +56,7 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
     await client.connect();
     await client.query(`UPDATE KEYS SET Token = '${response.data.refresh_token}'`, (err, res) => {
       if (err) throw err;
-        console.log("updated refresh token to " + response.data.refresh_token + ". Res: " + res);
+        console.log("updated refresh token to " + response.data.refresh_token + ". Res: " + JSON.stringify(res));
       client.end();
     });
 
@@ -59,12 +67,16 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
   });
 }
 
-const postSong = (res,id) => {
+const postSong = async (res,id) => {
   if(!refreshToken) {
-    console.log("not posting this bc no refresh token");
-    return res.status(500).send("error: no refresh token");
+    await client.connect();
+
+    const res = await client.query(`SELECT Token FROM KEYS`, (err, res) => {
+      if (err) throw err;
+      console.log(res);
+    }
   }
-  axios.post("https://accounts.spotify.com/api/token", //get next access token from refresh token
+  await axios.post("https://accounts.spotify.com/api/token", //get next access token from refresh token
   querystring.stringify({
       grant_type: "refresh_token",
       refresh_token: refreshToken
