@@ -22,8 +22,7 @@ client.query('SELECT * FROM KEYS', (err, res) => {
     refreshToken = res.rows[0].token;
     console.log("refresh token from datbase: ", refreshToken);
     client.end();
-  });
-}
+});
 
 
 const login = (res, code) => { //logs in for the first time (I have to do that in browser at https://cool-new-sounds-bot.herokuapp.com/login)
