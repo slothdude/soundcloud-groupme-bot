@@ -16,6 +16,16 @@ const client_secret = process.env.CLIENT_SECRET;
 let accessToken = null;
 let refreshToken = null;
 
+client.connect();
+client.query('SELECT * FROM KEYS', (err, res) => {
+    if (err) throw err;
+    refreshToken = res.rows[0].token;
+    console.log("refresh token from datbase: ", refreshToken);
+    client.end();
+  });
+}
+
+
 const login = (res, code) => { //logs in for the first time (I have to do that in browser at https://cool-new-sounds-bot.herokuapp.com/login)
   axios.post("https://accounts.spotify.com/api/token",
   querystring.stringify({
@@ -35,10 +45,9 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
     await client.connect();
     await client.query(`UPDATE KEYS SET Token = '${refreshToken}'`, (err, res) => {
       if (err) throw err;
-        console.log("updated refresh token to " + refreshToken + ". Res: " + JSON.stringify(res));
+        console.log("updated (new) refresh token to " + refreshToken + ". Res: " + JSON.stringify(res));
       client.end();
     });
-
     res.status(200).send("logged in! " + response.data.access_token + "\nrefreshToken: " + refreshToken);
   }).catch(err => {
     console.log(err);
@@ -47,17 +56,7 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
 }
 
 
-
 const postSong = async (res,id) => {
-  if(!refreshToken) {
-    await client.connect();
-    await client.query('SELECT * FROM KEYS', (err, res) => {
-      if (err) throw err;
-      await refreshToken = res.rows[0].token;
-      console.log("refresh token is now ", refreshToken);
-      client.end();
-    });
-  }
   await axios.post("https://accounts.spotify.com/api/token", //get next access token from refresh token
     querystring.stringify({
         grant_type: "refresh_token",
@@ -79,10 +78,10 @@ const postSong = async (res,id) => {
     {
       headers: {
         'Content-Type': "application/json",
-        'Authorization': "Bearer " + accessToken //
+        'Authorization': "Bearer " + accessToken
       }
     }).then(response2 => {
-      console.log(response2.data);
+      console.log("successfully added track", response2.data);
       res.status(200).send("success!");
     }).catch(err => {
       console.log(err);
