@@ -11,22 +11,16 @@ const client = new Client({
   ssl: true,
 });
 
-// client.connect();
-//
-// client.query('SELECT * FROM KEYS', (err, res) => {
-//   if (err) throw err;
-//
-//     console.log(JSON.stringify(res.rows[0].token));
-//
-//   client.end();
-// });
 client.connect();
 
-client.query(`SELECT Token FROM KEYS`, (err, res) => {
+client.query('SELECT * FROM KEYS', (err, res) => {
   if (err) throw err;
-  console.log("res", res);
+
+    console.log(JSON.stringify(res.rows[0].token));
+
   client.end();
 });
+
 
 
 
@@ -74,7 +68,7 @@ const postSong = async (res,id) => {
     const res = await client.query(`SELECT Token FROM KEYS`, (err, res) => {
       if (err) throw err;
       console.log(res);
-    }
+    });
   }
   await axios.post("https://accounts.spotify.com/api/token", //get next access token from refresh token
   querystring.stringify({
