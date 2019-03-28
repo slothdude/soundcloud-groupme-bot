@@ -53,7 +53,8 @@ const postSong = async (res,id) => {
     await client.connect();
     await client.query('SELECT * FROM KEYS', (err, res) => {
       if (err) throw err;
-        refreshToken = res.rows[0].token;
+      await refreshToken = res.rows[0].token;
+      console.log("refresh token is now ", refreshToken);
       client.end();
     });
   }
