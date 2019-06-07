@@ -30,7 +30,7 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
   querystring.stringify({
       grant_type: "authorization_code",
       code: code,
-      redirect_uri: "https://cool-new-sounds-bot.herokuapp.com/", //doesn't redirect so will only be called once
+      redirect_uri: "https://cool-new-sounds-bot.herokuapp.com/auth", //doesn't redirect so will only be called once
       client_id,
       client_secret
   }),
@@ -93,12 +93,12 @@ const postSong = async (res,id) => {
 }
 
 
-app.get("/", (req, res) => {
+app.get("/auth", (req, res) => {
   login(res, req.query.code);
 })
 
 app.get("/login", (req, res) => {
-  res.redirect(`https://accounts.spotify.com/authorize?client_id=f60b1417d554416baba6161f2e89a205&response_type=code&redirect_uri=https://cool-new-sounds-bot.herokuapp.com/&scope=playlist-modify-private%20playlist-modify-public`);
+  res.redirect(`https://accounts.spotify.com/authorize?client_id=f60b1417d554416baba6161f2e89a205&response_type=code&redirect_uri=https://cool-new-sounds-bot.herokuapp.com/auth&scope=playlist-modify-private%20playlist-modify-public`);
 });
 
 app.post("/newsong", (req,res) => {
