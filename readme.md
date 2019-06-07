@@ -33,9 +33,4 @@ instance restarts!
 
 
 2. The free tier of Heroku makes the app sleep for 18 hours a day. I upgraded to the
-hobby tier and signed up for a service called Kaffiene (http://kaffeine.herokuapp.com/)
-in attempt to make my app never fall asleep by pinging my app every hour. After I found
-out about the mandatory automatic dyno cycling every 24 hours, I cancelled the kaffiene
-subscription, and now I only pay for when the instance is running, so if nobody posts
-anything I won't get charged at all because the app will sleep if it doesn't receive
-requests for a bit.
+hobby tier ($7 a month) so it can be available 24/7. It also comes with the Postgres add on.
