@@ -31,6 +31,14 @@ a single row that stores my refresh token. Yay! Now I don't have to log in every
 instance restarts!
 
 
-
 2. The free tier of Heroku makes the app sleep for 18 hours a day. I upgraded to the
 hobby tier ($7 a month) so it can be available 24/7. It also comes with the Postgres add on.
+
+
+3. Getting everything to start up on the same terminal is a thing I've never had to deal with before. Normally I just run the server and the
+app on 2 different terminals.
+
+- When heroku runs `npm install` it only installs from the top level package.json's dependencies.
+  - All I had to do to fix this was call `npm install ./app` ONCE in my terminal to add the directories dependencies to the top level's. Very nifty.
+- How was I supposed to run the react app and the node.js server at the same time? I always had them run on 2 terminals because I thought that the React app build process was a dynamic thing that required a script run to serve the app. **WRONG**
+  - I made a build script `"build": "npm run build --prefix ./app",` which runs `npm build` on the `./app` directory. This creates the `./app/build` directory. That directory is served from my node server (!!!) using `app.use(express.static("./app/build"))` so I can route all routes to any file in there that I wish.

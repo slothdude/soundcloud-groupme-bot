@@ -92,6 +92,9 @@ const postSong = async (res,id) => {
   });
 }
 
+app.get("/", (req, res) => {
+  res.sendFile("/index.html");
+});
 
 app.get("/auth", (req, res) => {
   login(res, req.query.code);
