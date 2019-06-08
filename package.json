@@ -4,6 +4,7 @@
   "description": "��h\u0000i\u0000\r\u0000 \u0000",
   "main": "./src/server.js",
   "dependencies": {
+    "app": "file:app",
     "axios": "^0.18.0",
     "cors": "^2.8.5",
     "dotenv": "^6.2.0",
