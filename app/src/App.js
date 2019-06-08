@@ -15,8 +15,7 @@ class App extends React.Component {
   componentDidMount(){
     axios.get('/posts')
       .then(function (response) {
-        // handle success
-        console.log(response);
+        this.setState({listOfPosts: response});
       })
       .catch(function (error) {
         // handle error
@@ -48,17 +47,17 @@ class App extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {listOfLinks.map((url, index) =>
+              {listOfPosts.map((post, index) =>
                 <tr>
                   <th scope="row">{index+1}</th>
                   <td>
-                    {url}
+                    {post.date_added}
                   </td>
                   <td>
-                    {url}
+                    {post.link}
                   </td>
                   <td>
-                    {url}
+                    {post.name}
                   </td>
                 </tr>
               )}

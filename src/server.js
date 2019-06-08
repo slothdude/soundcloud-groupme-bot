@@ -115,7 +115,7 @@ app.get("/posts", (req,res) => {
   client.query('SELECT * FROM POSTS', (err, result) => {
       if (err) throw err;
       console.log(result);
-      res.status(200).send(result);
+      res.status(200).send(result.data.rows);
   });
 })
 
