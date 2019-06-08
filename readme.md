@@ -1,12 +1,11 @@
-avatar art created from https://www.pixilart.com/draw
-
+Live on http://cool-new-sounds-bot.herokuapp.com/
 
 ## Overview:
 
 When a song link like https://open.spotify.com/track/5L7EXyTTHGUPUBTicr4do2?si=DbPsY-OGQti7EWpdd4soJQ
 is posted to a groupchat that the bot is registered with, the id of the track is extracted from
 the url using regex (in this case the id is "5L7EXyTTHGUPUBTicr4do2") and then uses the
-spotify api to add the song to a playlist I created. Look at ./src/server.js
+spotify api to add the song to a playlist I created. Soundcloud links just get added to a database. Look at ./src/server.js
 
 
 
@@ -25,7 +24,7 @@ refresh token from logging into the spotify api to be lost. This makes the bot s
   - Database gets cleared whenever the instance restarts/dyno cycles
 
 
-Eventually I found the Heroku Postgres add-on (https://www.heroku.com/postgres) where I
+Eventually I found the *Heroku Postgres* add-on (https://www.heroku.com/postgres) where I
 have a single database with a single table with a single column of type `TEXT` with
 a single row that stores my refresh token. Yay! Now I don't have to log in everytime the
 instance restarts!
@@ -46,3 +45,11 @@ app on 2 different terminals.
 ## Future Plans
 
 1. I'm not trying to pay $7 a month forever, especially for an app that receives less than 5 requests a day. I'm on the lookout for another storage servce where I can just store my little 16 digit refresh token. Maybe aws? Why are the implementations so hard to set up for these :(
+
+2. I want to expand this so that other people can sign up, put in their groupme bot id and spotify playlist, and use it in their own song groups.
+
+3. Once soundcloud allows bot applications I'm going to implement one
+
+## Creds
+
+1. avatar art created from https://www.pixilart.com/draw
