@@ -15,6 +15,7 @@ class App extends React.Component {
   componentDidMount(){
     axios.get('/posts')
       .then(function (response) {
+        console.log(response);
         this.setState({listOfPosts: response});
       })
       .catch(function (error) {
