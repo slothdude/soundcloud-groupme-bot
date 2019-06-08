@@ -111,7 +111,13 @@ app.post("/newsong", (req,res) => {
   else res.status(500).send("not a spotify link");
 });
 
-
+app.get("/posts", (req,res) => {
+  client.query('SELECT * FROM POSTS', (err, result) => {
+      if (err) throw err;
+      console.log(result);
+      res.status(200).send(result);
+  });
+})
 
 let port = process.env.PORT;
 if (port == null || port == "") {

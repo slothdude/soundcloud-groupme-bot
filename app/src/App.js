@@ -1,17 +1,38 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+const axios = require('axios');
 
-function App() {
+const listOfLinks = [...new Array(100)].map(ele => Math.random().toString(36));
 
-  const listOfLinks = [...new Array(100)].map(ele => Math.random().toString(36));
+class App extends React.Component {
 
-  return (
+  constructor(props){
+    super(props);
+    this.state = {listOfPosts: []};
+  }
+
+  componentDidMount(){
+    axios.get('/posts')
+      .then(function (response) {
+        // handle success
+        console.log(response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .finally(function () {
+        // always executed
+      });
+  }
+
+  render = () => (
     <div className="App">
       <div class="card header">
         <div class="card-body">
           <h5 class="card-title">Welcome Fam</h5>
-          <a href="#" class="btn btn-success">Spotify Playlist</a>
+          <a href="https://open.spotify.com/playlist/7tlQqoMHmOjSzeHhtt0qwn?si=JRRtCL2MQIC1DfCsZmT2IQ" class="btn btn-success">Spotify Playlist</a>
         </div>
       </div>
       <div class="card">
