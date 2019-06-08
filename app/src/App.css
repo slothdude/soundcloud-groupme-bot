@@ -1,6 +1,25 @@
 .App {
   text-align: center;
+  background-color: #00AFF0;
 }
+
+.card.header{
+  background-color: #98FB98;
+}
+
+.card {
+  background-color: #FF6B00;
+}
+
+thead tr, tbody {
+  background-color: #DDDDDD;
+}
+
+tr {
+  background-color: rgba(210, 45.8, 34.7, 0.3);
+}
+
+
 
 /* h3{
   display: inline;

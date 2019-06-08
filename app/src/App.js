@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 const axios = require('axios');
 
-const listOfLinks = [...new Array(100)].map(ele => Math.random().toString(36));
+//const listOfLinks = [...new Array(100)].map(ele => ({date_added: Math.random().toString(36), link: Math.random().toString(36), name: Math.random().toString(36)}));
 
 class App extends React.Component {
 
@@ -21,9 +21,6 @@ class App extends React.Component {
       .catch(function (error) {
         // handle error
         console.log(error);
-      })
-      .finally(function () {
-        // always executed
       });
   }
 
@@ -41,7 +38,6 @@ class App extends React.Component {
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">#</th>
                 <th scope="col">Date Posted</th>
                 <th scope="col">Link</th>
                 <th scope="col">Creds</th>
@@ -49,13 +45,12 @@ class App extends React.Component {
             </thead>
             <tbody>
               {this.state.listOfPosts.map((post, index) =>
-                <tr>
-                  <th scope="row">{index+1}</th>
+                <tr style={{backgroundColor: `rgba( ${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255}, 0.2)`}}>
                   <td>
                     {post.date_added}
                   </td>
                   <td>
-                    {post.link}
+                    <a href={post.link}>{post.link}</a>
                   </td>
                   <td>
                     {post.name}
@@ -64,7 +59,6 @@ class App extends React.Component {
               )}
             </tbody>
           </table>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
         </div>
       </div>
     </div>
