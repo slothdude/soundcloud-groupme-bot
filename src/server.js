@@ -51,8 +51,23 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
   });
 }
 
+const postSoundCloudSong = async (res, url, name) => {
+    client.query(
+      `INSERT INTO POSTS (date_added, link, name)
+      VALUES ( now(), ${url}, ${name} )`,
+        (err, result) => {
+          if (err) {
+            res.status(500).send("error inserting soundcloud post")
+            throw err
+          };
+          console.log(result);
+          res.status(200).send(`successfully added ${url} from ${name}`);
+        }
+    );
+}
 
-const postSong = async (res,id) => {
+
+const postSong = async (res, id) => {
   await axios.post("https://accounts.spotify.com/api/token", //get next access token from refresh token
     querystring.stringify({
         grant_type: "refresh_token",
@@ -104,11 +119,17 @@ app.get("/login", (req, res) => {
 app.post("/newsong", (req,res) => {
   console.log(req.body);
   if(req.body.sender_type === "bot") return res.status(500).send("ignoring: bot message");
-  const regex = /\/track\/([^\?]*)/;
-  const id = req.body.text.match(regex) ? req.body.text.match(regex)[1] : -1;
-  if(id !== -1)
+  const spotifyRegex = /\/track\/([^\?]*)/;
+  const spotifyId = req.body.text.match(spotifyRegex) ? req.body.text.match(spotifyRegex)[1] : -1;
+  if(spotifyId !== -1)
     postSong(res, id);
-  else res.status(500).send("not a spotify link");
+  else {
+    const soundcloudRegex = /soundcloud\.com\/[^\s]+/;
+    const soundCloudUrl = req.body.text.match(soundcloudRegex) ? req.body.text.match(soundcloudRegex)[0] : "";
+    if(soundCloudUrl !== "")
+      postSoundCloudSong(res, soundCloudUrl, req.body.name)
+    else res.status(500).send("not a link I can recognize");
+  }
 });
 
 app.get("/posts", (req,res) => {
@@ -119,14 +140,21 @@ app.get("/posts", (req,res) => {
   });
 });
 
-app.post("/newsoundcloudpost", (req, res) => {
-  console.log(req.body);
-  client.query('INSERT INTO POSTS', (err, result) => {
-      if (err) throw err;
-      console.log(result);
-      res.status(200).send(result.data.rows);
-  });
-});
+// app.post("/newsoundcloudpost", (req, res) => {
+//   console.log(req.body);
+//   client.query(
+//     `INSERT INTO POSTS (date_added, link, name)
+//     VALUES ( now(), ${req.body.data.link}, ${req.body.data.name} )`,
+//       (err, result) => {
+//         if (err) {
+//           res.status(500).send("error inserting soundcloud post")
+//           throw err
+//         };
+//         console.log(result);
+//         res.status(200).send("successfully added");
+//       }
+//   );
+// });
 
 let port = process.env.PORT;
 if (port == null || port == "") {
