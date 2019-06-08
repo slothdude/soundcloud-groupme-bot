@@ -52,12 +52,13 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
 }
 
 const postSoundCloudSong = async (res, url, name) => {
+    console.log(url, name);
     client.query(
       `INSERT INTO POSTS (date_added, link, name)
-      VALUES ( now(), ${url}, ${name} )`,
+      VALUES ( now(), '${url}', '${name}' )`,
         (err, result) => {
           if (err) {
-            res.status(500).send("error inserting soundcloud post")
+            res.status(500).send("error inserting soundcloud post");
             throw err
           };
           console.log(result);
