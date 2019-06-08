@@ -19,6 +19,9 @@ tr {
   background-color: rgba(210, 45.8, 34.7, 0.3);
 }
 
+td {
+  word-break: break-all;
+}
 
 
 /* h3{
