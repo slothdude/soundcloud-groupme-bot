@@ -42,3 +42,7 @@ app on 2 different terminals.
   - All I had to do to fix this was call `npm install ./app` ONCE in my terminal to add the directories dependencies to the top level's. Very nifty.
 - How was I supposed to run the react app and the node.js server at the same time? I always had them run on 2 terminals because I thought that the React app build process was a dynamic thing that required a script run to serve the app. **WRONG**
   - I made a build script `"build": "npm run build --prefix ./app",` which runs `npm build` on the `./app` directory. This creates the `./app/build` directory. That directory is served from my node server (!!!) using `app.use(express.static("./app/build"))` so I can route all routes to any file in there that I wish.
+
+## Future Plans
+
+1. I'm not trying to pay $7 a month forever, especially for an app that receives less than 5 requests a day. I'm on the lookout for another storage servce where I can just store my little 16 digit refresh token. Maybe aws? Why are the implementations so hard to set up for these :(

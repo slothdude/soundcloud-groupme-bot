@@ -21,7 +21,6 @@ client.query('SELECT * FROM KEYS', (err, res) => {
     if (err) throw err;
     refreshToken = res.rows[0].token;
     console.log("refresh token from datbase: ", refreshToken);
-    client.end();
 });
 
 
@@ -41,11 +40,9 @@ const login = (res, code) => { //logs in for the first time (I have to do that i
   }
 ).then(async response => {
     refreshToken = response.data.refresh_token;
-    await client.connect();
     await client.query(`UPDATE KEYS SET Token = '${refreshToken}'`, (err, res) => {
       if (err) throw err;
         console.log("updated (new) refresh token to " + refreshToken + ". Res: " + JSON.stringify(res));
-      client.end();
     });
     res.status(200).send("logged in! " + response.data.access_token + "\nrefreshToken: " + refreshToken);
   }).catch(err => {
@@ -122,6 +119,9 @@ if (port == null || port == "") {
 }
 app.listen(port);
 
+process.on('SIGINT', () => {
+  console.info('SIGINT signal received.')
+});
 // get track info
 // axios.get("https://api.spotify.com/track/" + id)
 // .then(response => {
