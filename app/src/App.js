@@ -47,7 +47,7 @@ class App extends React.Component {
               </tr>
             </thead>
             <tbody>
-              {listOfPosts.map((post, index) =>
+              {this.state.listOfPosts.map((post, index) =>
                 <tr>
                   <th scope="row">{index+1}</th>
                   <td>
