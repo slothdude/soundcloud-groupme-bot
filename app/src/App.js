@@ -12,9 +12,9 @@ class App extends React.Component {
     this.state = {listOfPosts: []};
   }
 
-  componentDidMount(){
+  componentDidMount = () => {
     axios.get('/posts')
-      .then(function (response) {
+      .then((response) => {
         console.log(response.data);
         this.setState({listOfPosts: response.data});
       })
