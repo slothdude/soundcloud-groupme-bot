@@ -120,7 +120,8 @@ if (port == null || port == "") {
 app.listen(port);
 
 process.on('SIGINT', () => {
-  console.info('SIGINT signal received.')
+  console.info('SIGINT signal received.');
+  client.end();
 });
 // get track info
 // axios.get("https://api.spotify.com/track/" + id)
