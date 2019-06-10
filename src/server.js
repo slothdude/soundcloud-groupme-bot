@@ -123,7 +123,7 @@ app.post("/newsong", (req,res) => {
   const spotifyRegex = /\/track\/([^\?]*)/;
   const spotifyId = req.body.text.match(spotifyRegex) ? req.body.text.match(spotifyRegex)[1] : -1;
   if(spotifyId !== -1)
-    postSong(res, id);
+    postSong(res, spotifyId);
   else {
     const soundcloudRegex = /soundcloud\.com\/[^\s]+/;
     const soundCloudUrl = req.body.text.match(soundcloudRegex) ? req.body.text.match(soundcloudRegex)[0] : "";
