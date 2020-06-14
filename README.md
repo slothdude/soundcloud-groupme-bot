@@ -12,14 +12,12 @@ spotify api to add the song to a playlist I created. Soundcloud links just get a
 ## Problems:
 
 1. Whenever the dyno was cycled (every 24 hours), the instance restarts, causing my
-
 refresh token from logging into the spotify api to be lost. This makes the bot stops working. I needed to find a way to store the token somewhere, and I looked/tried many services:
 
 - Firebase's Cloud Firestore and Google Docs API
   - requires a file to log in, not available to do on heroku
 - Heroku's mongoose db mlab add-on
-  - Confusing, feels like a lot of extra work, `db.once('open', function callback() {` seems like it has to wrap everything, and I'm not sure how I feel
-  - Confusing, feels like a lot of extra work, `db.once('open', function callback() {` seems like it has to wrap everything, and I'm not sure how I feelbout hosting an api inside an event function
+  - Confusing, feels like a lot of extra work, `db.once('open', function callback() {` seems like it has to wrap everything, and I'm not sure how I feelbout hosting an api inside an event callback
 - Heroku's Redis add-on
   - Database gets cleared whenever the instance restarts/dyno cycles
 
