@@ -5,7 +5,21 @@ Live on http://cool-new-sounds-bot.herokuapp.com/
 When a song link like https://open.spotify.com/track/5L7EXyTTHGUPUBTicr4do2?si=DbPsY-OGQti7EWpdd4soJQ
 is posted to a groupchat that the bot is registered with, the id of the track is extracted from
 the url using regex (in this case the id is "5L7EXyTTHGUPUBTicr4do2") and then uses the
-spotify api to add the song to a playlist I created. Soundcloud links just get added to a database. Look at ./src/server.js
+spotify api to add the song to a playlist I created. Soundcloud links just get added to a database. Look at ./server.js
+
+Currently I pay $7 a month through heroku hobby tier because they make hosting with a db simple.
+
+## Set Up:
+
+1. Create a new heroku app and sign up a hobby dyno
+
+2. Install the heroku command line interface if not present (https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+
+3. Run `heroku addons:create heroku-postgresql:hobby-dev`
+
+4. Install psql locally if not present (https://devcenter.heroku.com/articles/heroku-postgresql#set-up-postgres-on-windows)
+
+5. Use that link above to get to the point where you can run `heroku pg:psql` to manually set up your db (scripts coming soon)
 
 
 
@@ -40,6 +54,22 @@ app on 2 different terminals.
 - How was I supposed to run the react app and the node.js server at the same time? I always had them run on 2 terminals because I thought that the React app build process was a dynamic thing that required a script run to serve the app. **WRONG**
   - I made a build script `"build": "npm run build --prefix ./app",` which runs `npm build` on the `./app` directory. This creates the `./app/build` directory. That directory is served from my node server (!!!) using `app.use(express.static("./app/build"))` so I can route all routes to any file in there that I wish.
 
+4. I think because of some of the emojis in people's names, when I tried to `SELECT * FROM POSTS` it gave this error:
+> ERROR:  character with byte sequence 0xf0 0x9f 0x95 0xba in encoding "UTF8" has no equivalent in encoding "WIN1252"
+
+I fixed this by running `SET CLIENT_ENCODING TO 'UTF-8'`
+
+## Helpful Commands
+1. `heroku pg:psql -a ${your_app_name}`
+*connects to your local psql instance so you can interact with the sql REPL*
+
+2. `echo "select * from KEYS;" | heroku pg:psql -a ${your_app_name}`
+*run a command in psql*
+
+3. `cat file.sql | heroku pg:psql -a ${your_app_name}`
+*run a script in psql*
+
+
 ## Future Plans
 
 1. I'm not trying to pay $7 a month forever, especially for an app that receives less than 5 requests a day. I'm on the lookout for another storage servce where I can just store my little 16 digit refresh token. Maybe aws? Why are the implementations so hard to set up for these :(
@@ -47,6 +77,8 @@ app on 2 different terminals.
 2. I want to expand this so that other people can sign up, put in their groupme bot id and spotify playlist, and use it in their own song groups.
 
 3. Once soundcloud allows bot applications I'm going to implement one
+
+4. Figure out how to use the .ENV variable locally for easier local development
 
 ## Creds
 
